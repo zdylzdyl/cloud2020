@@ -1,0 +1,21 @@
+server:
+  port: 8001
+
+
+spring:
+  application:
+    name: cloud-payment-service
+  cloud:
+    zookeeper:
+      # 使用的本地zookeeper
+      connect-string: 127.0.0.1:2181
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://106.12.92.100:3306/payment?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: qq498423089
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.candy.cloud.entity
