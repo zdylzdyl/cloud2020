@@ -91,4 +91,9 @@ public class CommonResult implements Serializable {
         this.code = code;
         return this;
     }
+
+    public CommonResult addMessage(String message) {
+        this.message = this.message+message;
+        return this;
+    }
 }

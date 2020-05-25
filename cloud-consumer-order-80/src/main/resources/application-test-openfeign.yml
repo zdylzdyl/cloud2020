@@ -1,0 +1,25 @@
+server:
+  port: 80
+
+spring:
+  application:
+    # 注意eureka服务调用时名字不区分大小写
+    name: cloud-order-service
+
+#这里只把feign做客户端用，不注册进eureka
+eureka:
+  client:
+    #表示是否将自己注册进EurekaServer默认为true
+    register-with-eureka: false
+    # register-with-eureka: true   #是否将自己注册到注册中心,集群必须设置为true配合ribbon
+    fetch-registry: true    #是否从服务端抓取已有的注册信息
+    service-url:
+      # 单机版 会自动同步 也不需要写多个
+      defaultZone: http://localhost:7001/eureka/
+      # 集群版
+      # defaultZone: http://my-eureka-7001.com:7001/eureka/,http://my-eureka-7002.com:7002/eureka/,http://my-eureka-7003.com:7003/eureka/
+  instance:
+    instance-id: cloud-order-service-80
+    prefer-ip-address: true  #访问路径可以显示IP地址
+    lease-renewal-interval-in-seconds: 1  #向服务端发送心跳的时间间隔，单位为秒（默认是30秒）
+    lease-expiration-duration-in-seconds: 2 #收到最后一次心跳后等待时间上限，单位为秒（默认是90秒），超时将剔除

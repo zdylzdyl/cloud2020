@@ -2,6 +2,7 @@ package cn.candy.cloud.controller;
 
 import cn.candy.cloud.entity.CommonResult;
 import cn.candy.cloud.entity.Payment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +17,8 @@ import javax.annotation.Resource;
  * @author : Administrator
  * @date : 2020-05-18 21:05
  **/
-@RestController
-@RequestMapping("/consumer")
+//@RestController
+//@RequestMapping("/consumer")
 public class OrderController {
     /**
      * 注入RestTemplate
@@ -34,7 +35,7 @@ public class OrderController {
      * 3.使用consul做服务发现，服务名不区分大小写
      */
     public static final String PAYMENT_URL = "http://cloud-payment-service".toUpperCase();
-    
+
     /**
      * 服务调用 插入一条数据
      *
@@ -45,7 +46,7 @@ public class OrderController {
     public CommonResult insert(Payment payment) {
         return restTemplate.postForObject(PAYMENT_URL + "/paymant", payment, CommonResult.class);
     }
-    
+
     /**
      * 根据id查询
      *
@@ -54,7 +55,21 @@ public class OrderController {
      */
     @GetMapping("/payment")
     public CommonResult getPayment(Long id) {
-        System.out.println(1);
         return restTemplate.getForObject(PAYMENT_URL + "/payment?id=" + id, CommonResult.class);
     }
+
+    /**
+     * 根据id查询 返回entity
+     *
+     * @param id 订单流水号的id
+     * @return 查询结果entity格式
+     */
+    @GetMapping("/payment/entity")
+    public CommonResult getPaymentEntity(Long id) {
+        ResponseEntity<CommonResult> entity = restTemplate.getForEntity(PAYMENT_URL + "/payment?id=" + id, CommonResult.class);
+        return (entity.getStatusCode().is2xxSuccessful()) ? entity.getBody() : CommonResult.error(
+                entity.getBody() != null && entity.getBody().getMessage() != null ? entity.getBody().getMessage() : "error with null message.");
+
+    }
+
 }

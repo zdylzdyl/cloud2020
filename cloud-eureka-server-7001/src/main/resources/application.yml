@@ -4,12 +4,9 @@ server:
 eureka:
   instance:
     # eureka服务端的实例名称
-    hostname: localhost # 单机写法
+    # hostname: localhost # 单机写法
     # 多机写法 修改host文件
-    # hostname:
-    # 127.0.0.1 my-eureka-7001.com
-    # 127.0.0.1 my-eureka-7002.com
-    # 127.0.0.1 my-eureka-7003.com
+    hostname: localhost
   client:
     # 服务端不需要向注册中心自己注册
     register-with-eureka: false
@@ -19,6 +16,7 @@ eureka:
       # 单机版
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
       # 多机版，除了自己不写，其他都写上
+      # eureka.client.service-url.defaultZone http://localhost:7002/eureka/
   server:
     enable-self-preservation: true # 默认是true false则是禁用自我保护模式
     eviction-interval-timer-in-ms: 65000 # 65000ms 即65秒钟 无心跳则移除
